@@ -1,11 +1,21 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Waze_Credit.Data;
+using Waze_Credit.Service;
+using Waze_Credit.Utility.AppSettingsClasses;
+using Waze_Credit.Utility.DI_Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+//var testVar = builder.Configuration.GetSection("Test").GetValue<string>("TestVal");
+
+
+builder.Services.AddTransient<IMarketForecaster, MarketForecasterV2>();
+builder.Services.AddAppSettingsConfig(builder.Configuration);
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -13,6 +23,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 

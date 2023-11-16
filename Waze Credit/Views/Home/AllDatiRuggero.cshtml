@@ -1,0 +1,28 @@
+﻿@model List<string>
+
+<h1>
+    Dati Ruggero Raimondi
+</h1>
+
+<div class="p-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Indirizzo</th>
+                <th>Cap</th>
+                <th>Eta</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var item in Model)
+                {
+                    <td>@item</td>
+                }
+            <tr />
+        </tbody>
+    </table>
+</div>
+
